@@ -13,6 +13,7 @@ if(isset($_POST['submit'])){
 
     if($count > 0){
         $_SESSION['ADMIN_LOGIN'] = 'yes';
+        $_SESSION['ADMIN_USERNAME'] = $username;
         header('location:categories.php');
         die();
     }else{

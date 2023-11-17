@@ -5,7 +5,7 @@ $name="";
 $mrp="";
 $price="";
 $qty="";
-$image="";
+// $image="";
 $short_desc="";
 $description="";
 $meta_title="";
@@ -26,7 +26,7 @@ if(isset($_GET['id']) && $_GET['id'] != ''){
         $mrp = $row['mrp'];
         $price = $row['price'];
         $qty = $row['qty'];
-        $image = $row['image'];
+        // $image = $row['image'];
         $short_desc = $row['short_desc'];
         $description = $row['description'];
         $meta_title = $row['meta_title'];
@@ -53,7 +53,7 @@ if(isset($_POST['submit'])){
     $meta_keyword = get_safe_value($conn, $_POST['meta_keyword']);
 
     $get_existed_category_sql = "SELECT * FROM product WHERE name='%s'";
-    $get_existed_category_sql = sprintf($get_existed_category_sql,  $categories);
+    $get_existed_category_sql = sprintf($get_existed_category_sql,  $name);
     $res = mysqli_query($conn, $get_existed_category_sql);
     $check = mysqli_num_rows($res);
     if($check > 0){
@@ -78,8 +78,12 @@ if(isset($_POST['submit'])){
             mysqli_query($conn, $edit_product_sql);
             
         }else{
-            $add_product_sql = "INSERT INTO product(categories_id,name,mrp,price,qty,short_desc,description, meta_title, meta_desc, meta_keyword, status) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '1' );";
-            $add_product_sql = sprintf($add_product_sql,  $categories_id, $name, $mrp, $price, $qty, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword );
+           
+            $image =  upload_image("image","../media/product/");
+            
+            $add_product_sql = "INSERT INTO product(categories_id, name, mrp, price, qty, image, short_desc, description, meta_title, meta_desc, meta_keyword, status) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '1' );";
+            echo $add_product_sql = sprintf($add_product_sql,  $categories_id, $name, $mrp, $price, $qty, $image, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword );
+            die;
             mysqli_query($conn, $add_product_sql);
             
         }

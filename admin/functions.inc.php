@@ -24,7 +24,7 @@ function get_safe_value($conn, $str){
 
 
 // function upload_image($image_name,$file_name_attribute_value, $file_path, $security = false){
-function upload_image($file_name_attribute_value, $file_path, $security = false){
+function upload_image($file_name_attribute_value, $file_path, $security = true){
 
     if($security == false){
         $file_name = $_FILES["$file_name_attribute_value"]['name'];

@@ -13,7 +13,9 @@ $meta_desc="";
 $meta_keyword="";
 // $status="";
 $msg ="";
+$image_required = "required";
 if(isset($_GET['id']) && $_GET['id'] != ''){
+    $image_required="";
     $id = get_safe_value($conn, $_GET['id']);
     $get_edit_category_sql = "SELECT * FROM product WHERE id='%s'";
     $get_edit_category_sql = sprintf($get_edit_category_sql,  $id);
@@ -71,19 +73,31 @@ if(isset($_POST['submit'])){
         }
         
     }
+    if($_FILES['image']['type'] != '' && $_FILES['image']['type'] != 'image/png' && $_FILES['image']['type'] != 'image/jpg' && $_FILES['image']['type'] != 'image/jpeg'){
+        $msg = "Please Select only png, jpg and jpeg format.";
+    }
     if($msg == ''){
         if(isset($_GET['id']) && $_GET['id'] != ''){
-            $edit_product_sql = "UPDATE categories SET categories_id='%s', name='%s', mrp='%s', price='%s', qty='%s', short_desc='%s', description='%s', meta_title='%s', meta_desc='%s',  meta_keyword='%s', WHERE id='%s';";
-            $edit_product_sql = sprintf($edit_product_sql,  $categories_id, $name, $mrp, $price, $qty, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword, $id);
+
+            if($_FILES['image']['name'] != ''){
+                $image =  upload_image("image",PRODUCT_IMAGE_SERVER_PATH);
+                $edit_product_sql = "UPDATE product SET categories_id='%s', name='%s', mrp='%s', price='%s', qty='%s', image='%s', short_desc='%s', description='%s', meta_title='%s', meta_desc='%s',  meta_keyword='%s' WHERE id='%s';";
+                 $edit_product_sql = sprintf($edit_product_sql,  $categories_id, $name, $mrp, $price, $qty, $image, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword, $id);
+                }else{
+                $edit_product_sql = "UPDATE product SET categories_id='%s', name='%s', mrp='%s', price='%s', qty='%s', short_desc='%s', description='%s', meta_title='%s', meta_desc='%s',  meta_keyword='%s' WHERE id='%s';";
+                 $edit_product_sql = sprintf($edit_product_sql,  $categories_id, $name, $mrp, $price, $qty, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword, $id);
+
+            }
+           
             mysqli_query($conn, $edit_product_sql);
             
         }else{
            
-            $image =  upload_image("image","../media/product/");
+            $image =  upload_image("image",PRODUCT_IMAGE_SERVER_PATH);
             
             $add_product_sql = "INSERT INTO product(categories_id, name, mrp, price, qty, image, short_desc, description, meta_title, meta_desc, meta_keyword, status) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '1' );";
-            echo $add_product_sql = sprintf($add_product_sql,  $categories_id, $name, $mrp, $price, $qty, $image, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword );
-            die;
+            $add_product_sql = sprintf($add_product_sql,  $categories_id, $name, $mrp, $price, $qty, $image, $short_desc, $description, $meta_title, $meta_desc, $meta_keyword );
+           
             mysqli_query($conn, $add_product_sql);
             
         }
@@ -131,12 +145,12 @@ if(isset($_POST['submit'])){
                                 <div class="form-group"><label for="categories" class=" form-control-label">MRP</label><input type="text" name="mrp" placeholder="Enter product mrp" class="form-control" required value="<?php echo $mrp; ?>"></div>
                                 <div class="form-group"><label for="categories" class=" form-control-label">Price</label><input type="text" name="price" placeholder="Enter product price" class="form-control" required value="<?php echo $price; ?>"></div>
                                 <div class="form-group"><label for="categories" class=" form-control-label">QTY</label><input type="text" name="qty" placeholder="Enter product qty" class="form-control" required value="<?php echo $qty; ?>"></div>
-                                <div class="form-group"><label for="categories" class=" form-control-label">Image</label><input type="file" name="image" placeholder="Enter product image" class="form-control" required value="<?php echo $image; ?>"></div>
+                                <div class="form-group"><label for="categories" class=" form-control-label">Image</label><input type="file" name="image" placeholder="Enter product image" class="form-control" <?php echo $image_required; ?> ></div>
                                 <div class="form-group"><label for="categories" class=" form-control-label">Short Description</label><textarea name="short_desc" placeholder="Enter product short description" class="form-control" required ><?php echo $short_desc; ?></textarea></div>
                                 <div class="form-group"><label for="categories" class=" form-control-label">Description</label><textarea name="description" placeholder="Enter product description" class="form-control" required ><?php echo $description; ?></textarea></div>
                                 <div class="form-group"><label for="categories" class=" form-control-label">Meta Title</label><textarea name="meta_title" placeholder="Enter product meta title" class="form-control" required ><?php echo $meta_title; ?></textarea></div>
                                 <div class="form-group"><label for="categories" class=" form-control-label">Meta Description</label><textarea name="meta_desc" placeholder="Enter product meta description" class="form-control" required ><?php echo $meta_desc; ?></textarea></div>
-                                <div class="form-group"><label for="categories" class=" form-control-label">Meta Keyword</label><textarea name="meta_keyword" placeholder="Enter product meta keyword" class="form-control" required ><?php echo $meta_keyword; ?></textarea></div>
+                                <div class="form-group"><label for="categories" class=" form-control-label">Meta Keyword</label><textarea name="meta_keyword" placeholder="Enter product meta keyword" class="form-control" ><?php echo $meta_keyword; ?></textarea></div>
 
 
                                 <button id="payment-button" name="submit" type="submit" class="btn btn-lg btn-info btn-block">

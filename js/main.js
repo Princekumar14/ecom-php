@@ -491,7 +491,15 @@ function user_register(){
             type: 'post',
             data: 'name='+ name+'&email='+email+'&mobile='+mobile+'&password='+password,
             success: function(result) {
-                alert(result);
+                // alert(result);
+                if(result=='email_present'){
+                    $("#email_error").html('Email id already present.');
+
+                }
+                if(result=='insert'){
+                    $(".register_msg p").html('Thank you for registration.');
+
+                }
             }
         });       
 

@@ -34,7 +34,7 @@ require("top.php");
 								</div>
 							</div>
 							<div class="col-xs-12">
-								<form id="contact-form" method="post">
+								<form id="login-form" method="post">
 									<div class="single-contact-form">
 										<div class="contact-box name">
 											<input type="text" name="name" placeholder="Your Email*" style="width:100%">
@@ -67,7 +67,7 @@ require("top.php");
 								</div>
 							</div>
 							<div class="col-xs-12">
-								<form id="contact-form" method="post">
+								<form id="register-form" method="post">
 									<div class="single-contact-form">
 										<div class="contact-box name">
 											<input type="text" name="name" id="name" placeholder="Your Name*" style="width:100%">
@@ -97,8 +97,8 @@ require("top.php");
 										<button type="button" class="fv-btn" onclick="user_register()">Register</button>
 									</div>
 								</form>
-								<div class="form-output">
-									<p class="form-messege"></p>
+								<div class="form-output register_msg">
+									<p class="form-messege field_error"></p>
 								</div>
 							</div>
 						</div> 

@@ -15,14 +15,14 @@ $row = mysqli_query($conn, $check_user_sql);
 $check_user = mysqli_num_rows($row);
 
 if($check_user > 0){
-    echo "Email Already Exist.";
+    echo "email_present";
 
 }else{
     $sql = "INSERT INTO users (name, email, mobile, password, added_on) VALUES('%s', '%s', '%s', '%s', '%s')";
     $sql = sprintf($sql, $name, $email, $mobile, $password, $added_on);
     mysqli_query($conn, $sql);
-    echo "Registered successfully.";
-    // echo "insert"; 
+    // echo "Registered successfully.";
+    echo "insert"; 
 
 }
 

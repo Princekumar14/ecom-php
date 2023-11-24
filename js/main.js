@@ -491,17 +491,99 @@ function user_register(){
             type: 'post',
             data: 'name='+ name+'&email='+email+'&mobile='+mobile+'&password='+password,
             success: function(result) {
-                // alert(result);
-                if(result=='email_present'){
-                    $("#email_error").html('Email id already present.');
+               
+                var response=JSON.parse(result);
+           
+                if(!response.error)
+                {     console.log(response.message,"result")
+                    if(response.message=="email_present")
+                    {
+             
+                        $('#email_error').html('Email id already present.');
+    
+                    }
+                     if(response.message=='insert'){
+                   
+                          $('.register_msg p').html('Thank you for registration.');
+    
+                      }
 
                 }
-                if(result=='insert'){
-                    $(".register_msg p").html('Thank you for registration.');
+                
+            }
+        });       
+        
+    }
+}
 
+
+function user_login(){
+    $(".field_error").html('');
+    
+    var email = $("#login_email").val();
+    var password = $("#login_password").val();
+    var is_error = "";
+    
+    if(email==""){
+        $('#login_email_error').html('please enter email2');
+        is_error = "yes";
+    }else if(password==""){
+        $('#login_password_error').html('please enter password');
+        is_error = 'yes';
+    }
+    
+    if(is_error==""){
+        $.ajax({
+            url: 'login_submit.php',
+            type: 'post',
+            data: '&email='+email+'&password='+password,
+            success: function(result) {
+                var response=JSON.parse(result);
+                
+                if(!response.error)
+                {     
+                    if(response.message=='wrong'){
+                  
+                         $('.login_msg p').html('Please enter valid login details.');
+               
+                     }
+                    if(response.message=="valid")
+                    {
+                        window.location.href='index.php';
+                        // response.message
+                
+                    }
+                
                 }
             }
         });       
 
     }
+}
+
+
+function manage_cart(pid, type){
+    
+    if(type == 'update'){
+        var qty = $("#"+pid+"qty").val();
+
+    }else{
+        var qty = $("#qty").val();
+
+    }
+
+        $.ajax({
+            url: 'manage_cart.php',
+            type: 'post',
+            data: '&pid='+pid+'&qty='+qty+'&type='+type,
+            success: function(result) {
+                if(type == 'update' || type=='remove'){
+                    window.location.href='cart.php';
+                }
+                $('.htc__qua').html(result);
+                
+            }
+        });       
+
+
 }

@@ -65,7 +65,23 @@ if($product_id > 0){
                                 <p class="pro__info"><?php echo $get_product['0']['short_desc'] ?></p>
                                 <div class="ht__pro__desc">
                                     <div class="sin__desc">
-                                        <p><span>Availability:</span> In Stock</p>
+                                        <p><span>Availability:</span>In Stock</p>
+                                    </div>
+                                    <div class="sin__desc">
+                                        <p><span>Qty:</span> 
+                                            <select id="qty">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                        </p>
                                     </div>
                                     <div class="sin__desc align--left">
                                         <p><span>Categories:</span></p>
@@ -74,7 +90,7 @@ if($product_id > 0){
                                         </ul>
                                     </div>
                                 </div>
-                                <a class="fr__btn" href="#">ADD TO CART</a>
+                                <a class="fr__btn" href="javascript:void(0)" onclick="manage_cart('<?php echo $get_product['0']['id']; ?>', 'add')">ADD TO CART</a>
                                 </div>
                             </div>
                         </div>
